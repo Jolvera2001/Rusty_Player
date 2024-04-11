@@ -8,24 +8,38 @@ import {
   VStack,
   Heading,
   HStack,
+  Stack,
   Center,
   FormControl,
   FormLabel,
   ButtonGroup,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
 
 } from "@chakra-ui/react";
 
 function App() {
   const [name, setName] = useState("");
   const [greetMsg, setGreetMsg] = useState("");
+  const [file_path, setFilePath] = useState("");
 
   async function greet() {
     setGreetMsg(await invoke("greet", { name }));
   }
 
+  async function play() {
+    await invoke("play", { file_path });
+  }
+
+  async function pause() {
+    await invoke("pause");
+  }
+
   return (
     <>
-      <Box p={6}>
+      <Box bg="blue.200" p={6}>
         <Center>
           <VStack>
             <Heading>Welcome!</Heading>
@@ -38,6 +52,27 @@ function App() {
               </ButtonGroup>
             </FormControl>
             <Text>{greetMsg}</Text>
+          </VStack>
+        </Center>
+      </Box>
+      <Box bg="red.200" p={5} >
+        <Center>
+          <VStack>
+            <Heading>Music Player</Heading>
+            <HStack p={6} justifyContent="center">
+              <Card >
+                <CardBody>
+                  <ButtonGroup>
+                    <Button>Play</Button>
+                    <Button>Pause</Button>
+                  </ButtonGroup>
+                </CardBody>
+              </Card>
+            </HStack>
+            <FormControl>
+              <FormLabel>Song Path</FormLabel>
+              <Input placeholder="file path" value={file_path} onChange={e => setFilePath(e.target.value)}/>
+            </FormControl>
           </VStack>
         </Center>
       </Box>
